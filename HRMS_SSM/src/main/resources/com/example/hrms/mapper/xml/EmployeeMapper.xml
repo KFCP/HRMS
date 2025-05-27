@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hrms.mapper.EmployeeMapper">
+
+    <!-- ResultMap for mapping Employee with its associated Position -->
+    <resultMap id="EmployeeWithPositionResultMap" type="com.example.hrms.model.Employee">
+        <id property="id" column="e_id"/>
+        <result property="name" column="e_name"/>
+        <result property="gender" column="e_gender"/>
+        <result property="age" column="e_age"/>
+        <result property="phone" column="e_phone"/>
+        <result property="email" column="e_email"/>
+        <result property="salary" column="e_salary"/> <!-- Added salary -->
+        <result property="positionId" column="e_position_id"/>
+        <association property="position" javaType="com.example.hrms.model.Position">
+            <id property="id" column="p_id"/>
+            <result property="positionName" column="p_position_name"/>
+            <result property="level" column="p_level"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertEmployee" parameterType="com.example.hrms.model.Employee" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO employees (name, gender, age, phone, email, position_id, salary)
+        VALUES (#{name}, #{gender}, #{age}, #{phone}, #{email}, #{positionId}, #{salary})
+    </insert>
+
+    <select id="findEmployeeById" resultMap="EmployeeWithPositionResultMap">
+        SELECT 
+            e.id AS e_id, e.name AS e_name, e.gender AS e_gender, e.age AS e_age, 
+            e.phone AS e_phone, e.email AS e_email, e.salary AS e_salary, <!-- Added salary -->
+            e.position_id AS e_position_id,
+            p.id AS p_id, p.position_name AS p_position_name, p.level AS p_level
+        FROM employees e
+        LEFT JOIN positions p ON e.position_id = p.id
+        WHERE e.id = #{id}
+    </select>
+
+    <select id="findAllEmployees" resultMap="EmployeeWithPositionResultMap">
+        SELECT 
+            e.id AS e_id, e.name AS e_name, e.gender AS e_gender, e.age AS e_age, 
+            e.phone AS e_phone, e.email AS e_email, e.salary AS e_salary, <!-- Added salary -->
+            e.position_id AS e_position_id,
+            p.id AS p_id, p.position_name AS p_position_name, p.level AS p_level
+        FROM employees e
+        LEFT JOIN positions p ON e.position_id = p.id
+        ORDER BY e.name
+    </select>
+
+    <select id="findEmployeesByKeyword" resultMap="EmployeeWithPositionResultMap">
+        SELECT 
+            e.id AS e_id, e.name AS e_name, e.gender AS e_gender, e.age AS e_age, 
+            e.phone AS e_phone, e.email AS e_email, e.salary AS e_salary, <!-- Added salary -->
+            e.position_id AS e_position_id,
+            p.id AS p_id, p.position_name AS p_position_name, p.level AS p_level
+        FROM employees e
+        LEFT JOIN positions p ON e.position_id = p.id
+        WHERE e.name LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY e.name
+    </select>
+
+    <update id="updateEmployee" parameterType="com.example.hrms.model.Employee">
+        UPDATE employees
+        SET name = #{name},
+            gender = #{gender},
+            age = #{age},
+            phone = #{phone},
+            email = #{email},
+            salary = #{salary}, <!-- Added salary -->
+            position_id = #{positionId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteEmployee">
+        DELETE FROM employees WHERE id = #{id}
+    </delete>
+
+</mapper>

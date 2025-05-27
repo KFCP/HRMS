@@ -1,6 +1,7 @@
 package com.example.hrms.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal; // Import BigDecimal
 
 public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -11,6 +12,7 @@ public class Employee implements Serializable {
     private Integer age;
     private String phone;
     private String email;
+    private BigDecimal salary; // New field
     
     private Long positionId; // Foreign key
     private Position position; // For holding the joined Position object
@@ -84,6 +86,14 @@ public class Employee implements Serializable {
         this.position = position;
     }
 
+    public BigDecimal getSalary() { // New getter
+        return salary;
+    }
+
+    public void setSalary(BigDecimal salary) { // New setter
+        this.salary = salary;
+    }
+
     // toString (optional)
     @Override
     public String toString() {
@@ -94,6 +104,7 @@ public class Employee implements Serializable {
                ", age=" + age +
                ", phone='" + phone + '\'' +
                ", email='" + email + '\'' +
+               ", salary=" + salary + // Add salary to toString
                ", positionId=" + positionId +
                ", position=" + (position != null ? position.getPositionName() : "null") +
                '}';

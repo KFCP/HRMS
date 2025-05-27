@@ -1,0 +1,9 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+</main> <%-- Closes main-content container from header --%>
+<footer class="main-footer">
+    <div class="container">
+        <p>&copy; ${currentYear} HRMS 系统. 保留所有权利.</p> <%-- currentYear can be set in a base controller or filter --%>
+    </div>
+</footer>
+</body>
+</html>

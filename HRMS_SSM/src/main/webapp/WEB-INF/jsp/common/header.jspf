@@ -1,0 +1,50 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HRMS系统 - ${pageTitle}</title> <%-- pageTitle will be set in each main JSP --%>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/style.css'/>">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1>人力资源管理系统 (SSM)</h1>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="<c:url value='/'/>">主页</a></li>
+                    <sec:authorize access="isAuthenticated()">
+                        <li><a href="<c:url value='/employees'/>">员工管理</a></li>
+                        <li><a href="<c:url value='/positions'/>">职位管理</a></li>
+                        <%-- Link to user management, potentially role-restricted later --%>
+                        <li><a href="<c:url value='/users'/>">用户管理</a></li>
+                        <li>
+                            <a href="<c:url value='/logout'/>" 
+                               onclick="event.preventDefault(); if(confirm('您确定要退出吗？')) { document.getElementById('logoutFormPartial').submit(); }">
+                               退出 (<sec:authentication property="principal.username"/>)
+                            </a>
+                            <form id="logoutFormPartial" method="POST" action="<c:url value='/logout'/>" style="display:none;">
+                                <%-- Include CSRF token when Spring Security CSRF is enabled --%>
+                                <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
+                            </form>
+                        </li>
+                    </sec:authorize>
+                    <sec:authorize access="!isAuthenticated()">
+                        <li><a href="<c:url value='/login'/>">登录</a></li>
+                    </sec:authorize>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="container main-content"> <%-- Main content wrapper --%>
+        <%-- Success and Error messages can be displayed globally here or in individual pages --%>
+        <c:if test="${not empty sessionScope.successMessage}">
+            <p class="success-message"><c:out value="${sessionScope.successMessage}"/></p>
+            <c:remove var="successMessage" scope="session"/> <%-- Remove after displaying --%>
+        </c:if>
+        <c:if test="${not empty sessionScope.errorMessage}">
+            <p class="error-message"><c:out value="${sessionScope.errorMessage}"/></p>
+            <c:remove var="errorMessage" scope="session"/> <%-- Remove after displaying --%>
+        </c:if>
