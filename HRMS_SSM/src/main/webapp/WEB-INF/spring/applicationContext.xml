@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://mybatis.org/schema/mybatis-spring
+           http://mybatis.org/schema/mybatis-spring.xsd">
+
+    <!-- 1. Component scanning for @Service, @Repository (if not using MyBatis mappers directly as Spring beans) -->
+    <!-- Adjust the base-package to where your services and other core components will be located -->
+    <context:component-scan base-package="com.example.hrms">
+        <!-- Exclude @Controller components as they are handled by spring-mvc-config.xml -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 2. Load database properties from a properties file (optional, good practice) -->
+    <!-- We'll create 'db.properties' in 'src/main/resources' later -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 3. Configure DataSource (using Apache Commons DBCP2 or HikariCP is common) -->
+    <!-- Using basic DriverManagerDataSource for simplicity now, can be upgraded -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${db.driverClassName}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+    </bean>
+
+    <!-- 4. Configure SqlSessionFactoryBean for MyBatis -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- Location of MyBatis global configuration file (mybatis-config.xml) -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/> <!-- We will create this file later -->
+        <!-- Locations of MyBatis mapper XML files -->
+        <property name="mapperLocations" value="classpath:com/example/hrms/mapper/xml/*.xml"/> <!-- We will create these later, note the 'xml' subfolder -->
+    </bean>
+
+    <!-- 5. Configure MapperScannerConfigurer to find and register MyBatis mappers -->
+    <!-- This will scan for interfaces extending MyBatis's Mapper interface -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.example.hrms.mapper"/> <!-- Package where your mapper interfaces are -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 6. Configure Spring's PlatformTransactionManager for declarative transaction management -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 7. Enable annotation-driven transaction management (@Transactional) -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>

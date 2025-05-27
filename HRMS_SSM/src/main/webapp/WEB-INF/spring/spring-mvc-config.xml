@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 1. Enable Spring MVC annotation-driven features -->
+    <mvc:annotation-driven/>
+
+    <!-- 2. Component scanning for @Controller classes -->
+    <!-- Adjust the base-package to where your controllers will be located -->
+    <context:component-scan base-package="com.example.hrms.controller"/>
+
+    <!-- 3. Configure ViewResolver for JSPs -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/> <!-- We will place JSPs here -->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 4. Static resource handling (e.g., CSS, JavaScript, images) -->
+    <!-- This allows serving static content from /css/**, /js/**, /images/** -->
+    <!-- The 'css' mapping is important for our existing style.css -->
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/images/**" location="/images/"/>
+
+    <!--
+        Additional configurations can be added here later, such as:
+        - Interceptors
+        - Message converters (for JSON/XML)
+        - Exception resolvers
+    -->
+
+</beans>

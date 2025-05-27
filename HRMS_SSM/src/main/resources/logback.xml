@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Console Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Pattern for log messages: Date Time Level [Thread] LoggerName - Message Newline -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--
+        Spring Framework logging. Set to INFO by default.
+        Can be set to DEBUG for more verbose Spring output.
+    -->
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.mybatis" level="INFO"/> <!-- MyBatis logging -->
+    <logger name="com.example.hrms" level="DEBUG"/> <!-- Application specific logs, set to DEBUG for development -->
+
+
+    <!-- Root logger: default logging level and appender -->
+    <root level="INFO"> <!-- Default level for other libraries -->
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <!--
+        To add file logging, you would uncomment and configure a FileAppender:
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>logs/hrms_ssm.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>logs/hrms_ssm.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+        </root>
+    -->
+
+</configuration>

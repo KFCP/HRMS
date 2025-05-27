@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hrms.mapper.PositionMapper">
+
+    <insert id="insertPosition" parameterType="com.example.hrms.model.Position" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO positions (position_name, level)
+        VALUES (#{positionName}, #{level})
+    </insert>
+
+    <select id="findPositionById" resultType="com.example.hrms.model.Position">
+        SELECT id, position_name, level 
+        FROM positions 
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAllPositions" resultType="com.example.hrms.model.Position">
+        SELECT id, position_name, level 
+        FROM positions
+        ORDER BY level, position_name
+    </select>
+
+    <select id="findPositionsByName" resultType="com.example.hrms.model.Position">
+        SELECT id, position_name, level 
+        FROM positions 
+        WHERE position_name LIKE CONCAT('%', #{nameKeyword}, '%')
+        ORDER BY level, position_name
+    </select>
+
+    <update id="updatePosition" parameterType="com.example.hrms.model.Position">
+        UPDATE positions
+        SET position_name = #{positionName},
+            level = #{level}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deletePosition">
+        DELETE FROM positions WHERE id = #{id}
+    </delete>
+
+</mapper>

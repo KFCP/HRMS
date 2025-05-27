@@ -15,7 +15,7 @@
   <li><a href="employee_query.jsp">查询员工</a></li>
   <li><a href="position_add.jsp">添加职位</a></li>
   <li><a href="position_query.jsp">查询职位</a></li>
-  <li><a href="assignment_add.jsp">安排职位</a></li>
+  <li><a href="position_assign.jsp">安排职位</a></li>
   <li><a href="employee_edit.jsp">人事调整</a></li>
   <li><a href="salary_manage.jsp">薪酬管理</a></li>
   <li><a href="user_manage.jsp">系统用户管理</a></li>
