@@ -7,7 +7,7 @@
     }
 %>
 <html>
-<head><title>职位安排</title></head>
+<head><title>职位安排</title><link rel="stylesheet" type="text/css" href="css/style.css"></head>
 <body>
 <h2>给员工安排职位</h2>
 

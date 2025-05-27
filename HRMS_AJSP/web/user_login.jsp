@@ -3,13 +3,14 @@
 <%@ page import="javax.servlet.http.*" %>
 <%@ page import="javax.servlet.*" %>
 <html>
-<head><title>管理员登录</title></head>
+<head><title>管理员登录</title><link rel="stylesheet" type="text/css" href="css/style.css"></head>
 <body>
+<div class="container">
 <h2>管理员登录</h2>
 
 <form method="post" action="user_login.jsp">
-    用户名: <input type="text" name="username" required><br>
-    密码: <input type="password" name="password" required><br>
+    <label for="username">用户名:</label> <input type="text" id="username" name="username" required><br>
+    <label for="password">密码:</label> <input type="password" id="password" name="password" required><br>
     <input type="submit" value="登录">
 </form>
 
@@ -37,10 +38,10 @@
                 session.setAttribute("user", username);
                 response.sendRedirect("index.jsp"); // 登录成功跳转到人员查询页面
             } else {
-                out.println("<p style='color:red;'>用户名或密码错误</p>");
+                out.println("<p class=\\\"error-message\\\">用户名或密码错误</p>");
             }
         } catch (Exception e) {
-            out.println("<p>错误：" + e.getMessage() + "</p>");
+            out.println("<p class=\\\"error-message\\\">错误：" + e.getMessage() + "</p>");
         } finally {
             if (rs != null) try {
                 rs.close();
@@ -57,5 +58,6 @@
         }
     }
 %>
+</div>
 </body>
 </html>

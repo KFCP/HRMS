@@ -8,17 +8,18 @@
     }
 %>
 <html>
-<head><title>添加员工</title></head>
+<head><title>添加员工</title><link rel="stylesheet" type="text/css" href="css/style.css"></head>
 <body>
+<div class="container">
 <h2>添加新员工</h2>
 
 <form method="post" action="employee_add.jsp">
-  姓名: <input type="text" name="name" required><br>
-  性别: <input type="text" name="gender" required><br>
-  年龄: <input type="number" name="age" required><br>
-  电话: <input type="text" name="phone"><br>
-  邮箱: <input type="email" name="email"><br>
-  职位ID: <input type="number" name="position_id" required><br>
+  <label for="name">姓名:</label> <input type="text" id="name" name="name" required><br>
+  <label for="gender">性别:</label> <input type="text" id="gender" name="gender" required><br>
+  <label for="age">年龄:</label> <input type="number" id="age" name="age" required><br>
+  <label for="phone">电话:</label> <input type="text" id="phone" name="phone"><br>
+  <label for="email">邮箱:</label> <input type="email" id="email" name="email"><br>
+  <label for="position_id">职位ID:</label> <input type="number" id="position_id" name="position_id" required><br>
   <input type="submit" value="添加">
 </form>
 
@@ -53,12 +54,12 @@ if ("POST".equalsIgnoreCase(request.getMethod())) {
 
             int result = ps.executeUpdate();
             if (result > 0) {
-                out.println("<p>员工添加成功！</p>");
+                out.println("<p class=\\\"success-message\\\">员工添加成功！</p>");
             } else {
-                out.println("<p>添加失败。</p>");
+                out.println("<p class=\\\"error-message\\\">添加失败。</p>");
             }
         } catch (Exception e) {
-            out.println("<p>错误: " + e.getMessage() + "</p>");
+            out.println("<p class=\\\"error-message\\\">错误: " + e.getMessage() + "</p>");
         } finally {
             if (ps != null) ps.close();
             if (conn != null) conn.close();
@@ -69,6 +70,6 @@ if ("POST".equalsIgnoreCase(request.getMethod())) {
 
 <p><a href="employee_query.jsp">查看员工列表</a></p>
 <p><a href="user_logout.jsp">退出登录</a></p>
-
+</div>
 </body>
 </html>

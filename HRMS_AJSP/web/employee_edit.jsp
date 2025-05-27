@@ -83,7 +83,7 @@
 %>
 
 <html>
-<head><title>人事调整</title></head>
+<head><title>人事调整</title><link rel="stylesheet" type="text/css" href="css/style.css"></head>
 <body>
 <h2>编辑员工信息</h2>
 

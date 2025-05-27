@@ -7,7 +7,7 @@
     }
 %>
 <html>
-<head><title>人员查询</title></head>
+<head><title>人员查询</title><link rel="stylesheet" type="text/css" href="css/style.css"></head>
 <body>
 <h2>查询员工信息</h2>
 

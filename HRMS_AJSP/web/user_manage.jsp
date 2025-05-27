@@ -7,7 +7,7 @@
     }
 %>
 <html>
-<head><title>系统用户管理</title></head>
+<head><title>系统用户管理</title><link rel="stylesheet" type="text/css" href="css/style.css"></head>
 <body>
 <h2>添加新系统用户</h2>
 

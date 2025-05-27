@@ -10,7 +10,7 @@
 %>
 
 <html>
-<head><title>员工薪酬管理</title></head>
+<head><title>员工薪酬管理</title><link rel="stylesheet" type="text/css" href="css/style.css"></head>
 <body>
 <h2>员工薪酬信息管理</h2>
 

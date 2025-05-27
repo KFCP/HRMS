@@ -7,13 +7,14 @@
     }
 %>
 <html>
-<head><title>添加职位等级</title></head>
+<head><title>添加职位等级</title><link rel="stylesheet" type="text/css" href="css/style.css"></head>
 <body>
+<div class="container">
 <h2>添加职位等级</h2>
 
 <form method="post" action="position_add.jsp">
-  职位名称: <input type="text" name="position_name" required><br>
-  职位等级（数字）: <input type="number" name="level" required><br>
+  <label for="position_name">职位名称:</label> <input type="text" id="position_name" name="position_name" required><br>
+  <label for="level">职位等级（数字）:</label> <input type="number" id="level" name="level" required><br>
   <input type="submit" value="添加职位">
 </form>
 
@@ -39,12 +40,12 @@ if ("POST".equalsIgnoreCase(request.getMethod())) {
 
             int result = ps.executeUpdate();
             if (result > 0) {
-                out.println("<p>职位添加成功！</p>");
+                out.println("<p class=\\\"success-message\\\">职位添加成功！</p>");
             } else {
-                out.println("<p>添加失败。</p>");
+                out.println("<p class=\\\"error-message\\\">添加失败。</p>");
             }
         } catch (Exception e) {
-            out.println("<p>错误: " + e.getMessage() + "</p>");
+            out.println("<p class=\\\"error-message\\\">错误: " + e.getMessage() + "</p>");
         } finally {
             if (ps != null) ps.close();
             if (conn != null) conn.close();
@@ -56,6 +57,6 @@ if ("POST".equalsIgnoreCase(request.getMethod())) {
 <p><a href="position_query.jsp">查看职位列表</a></p>
 <p><a href="employee_add.jsp">添加员工</a></p>
 <p><a href="user_logout.jsp">退出登录</a></p>
-
+</div>
 </body>
 </html>
