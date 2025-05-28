@@ -13,17 +13,27 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Specifies the Java version for compilation. Requires JDK 1.8 or higher. -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <spring.version>5.2.25.RELEASE</spring.version> <!-- Or a newer stable 5.x version -->
-        <mybatis.version>3.5.15</mybatis.version> <!-- Or a newer stable 3.5.x version -->
-        <mybatis.spring.version>2.0.7</mybatis.spring.version> <!-- Or a newer stable 2.x version -->
+        
+        <!-- Spring Framework version -->
+        <spring.version>5.2.25.RELEASE</spring.version>
+        <!-- MyBatis ORM framework version -->
+        <mybatis.version>3.5.15</mybatis.version>
+        <mybatis.spring.version>2.0.7</mybatis.spring.version>
+        <!-- MySQL JDBC driver version -->
         <mysql.connector.version>8.0.33</mysql.connector.version>
+        <!-- Java Servlet and JSP API versions -->
         <servlet.api.version>4.0.1</servlet.api.version>
         <jsp.api.version>2.3.3</jsp.api.version>
+        <!-- JSTL version -->
         <jstl.version>1.2</jstl.version>
+        <!-- Logging framework (Logback) version -->
         <logback.version>1.2.13</logback.version>
+        <!-- JUnit testing framework version -->
         <junit.version>4.13.2</junit.version>
+        <!-- Spring Security version -->
         <spring.security.version>5.7.12</spring.security.version>
     </properties>
 
@@ -79,13 +89,13 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${servlet.api.version}</version>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- Provided by the Servlet container (e.g., Tomcat) at runtime -->
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>javax.servlet.jsp-api</artifactId>
             <version>${jsp.api.version}</version>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- Provided by the Servlet container at runtime -->
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

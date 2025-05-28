@@ -14,19 +14,23 @@
            http://mybatis.org/schema/mybatis-spring
            http://mybatis.org/schema/mybatis-spring.xsd">
 
-    <!-- 1. Component scanning for @Service, @Repository (if not using MyBatis mappers directly as Spring beans) -->
-    <!-- Adjust the base-package to where your services and other core components will be located -->
+    <!-- 1. Component Scanning for Service Layer -->
+    <!-- Scans the specified base package for Spring components like @Service, @Component, @Repository. -->
+    <!-- @Controller components are typically excluded here and scanned by the MVC configuration. -->
     <context:component-scan base-package="com.example.hrms">
-        <!-- Exclude @Controller components as they are handled by spring-mvc-config.xml -->
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <!-- 2. Load database properties from a properties file (optional, good practice) -->
-    <!-- We'll create 'db.properties' in 'src/main/resources' later -->
+    <!-- 2. Load Database Properties -->
+    <!-- Loads database connection details from 'db.properties' located in the classpath (src/main/resources). -->
+    <!-- IMPORTANT: Users must configure 'db.properties' for their local environment. -->
     <context:property-placeholder location="classpath:db.properties"/>
 
-    <!-- 3. Configure DataSource (using Apache Commons DBCP2 or HikariCP is common) -->
-    <!-- Using basic DriverManagerDataSource for simplicity now, can be upgraded -->
+    <!-- 3. Configure DataSource -->
+    <!-- Defines the database connection pool. -->
+    <!-- Uses properties loaded from 'db.properties'. -->
+    <!-- DriverManagerDataSource is simple but not recommended for production. -->
+    <!-- For production, consider using a more robust connection pool like HikariCP or Apache Commons DBCP2. -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${db.driverClassName}"/>
         <property name="url" value="${db.url}"/>
@@ -34,28 +38,33 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <!-- 4. Configure SqlSessionFactoryBean for MyBatis -->
+    <!-- 4. Configure MyBatis SqlSessionFactory -->
+    <!-- Integrates MyBatis with Spring. -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <!-- Location of MyBatis global configuration file (mybatis-config.xml) -->
-        <property name="configLocation" value="classpath:mybatis-config.xml"/> <!-- We will create this file later -->
-        <!-- Locations of MyBatis mapper XML files -->
-        <property name="mapperLocations" value="classpath:com/example/hrms/mapper/xml/*.xml"/> <!-- We will create these later, note the 'xml' subfolder -->
+        <!-- Location of the global MyBatis configuration file. -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- Locations of MyBatis XML mapper files. -->
+        <!-- Scans for XML files in the specified package structure within the classpath. -->
+        <property name="mapperLocations" value="classpath:com/example/hrms/mapper/xml/*.xml"/>
     </bean>
 
-    <!-- 5. Configure MapperScannerConfigurer to find and register MyBatis mappers -->
-    <!-- This will scan for interfaces extending MyBatis's Mapper interface -->
+    <!-- 5. Configure MapperScannerConfigurer for MyBatis Mappers -->
+    <!-- Scans for MyBatis mapper interfaces (e.g., UserMapper.java) in the specified base package. -->
+    <!-- Automatically creates proxy beans for these mappers so they can be injected into services. -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.example.hrms.mapper"/> <!-- Package where your mapper interfaces are -->
+        <property name="basePackage" value="com.example.hrms.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
-    <!-- 6. Configure Spring's PlatformTransactionManager for declarative transaction management -->
+    <!-- 6. Configure Spring TransactionManager -->
+    <!-- Enables Spring's declarative transaction management. -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- 7. Enable annotation-driven transaction management (@Transactional) -->
+    <!-- 7. Enable Annotation-Driven Transaction Management -->
+    <!-- Allows the use of @Transactional annotations on service methods. -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>

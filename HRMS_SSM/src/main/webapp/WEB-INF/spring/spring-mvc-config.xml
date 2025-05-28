@@ -11,31 +11,39 @@
            http://www.springframework.org/schema/mvc
            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <!-- 1. Enable Spring MVC annotation-driven features -->
+    <!-- 1. Enable Spring MVC Annotation-Driven Features -->
+    <!-- This enables support for features like @Controller, @RequestMapping, @RequestParam,
+         @ResponseBody, data binding, type conversion, validation, etc. -->
     <mvc:annotation-driven/>
 
-    <!-- 2. Component scanning for @Controller classes -->
-    <!-- Adjust the base-package to where your controllers will be located -->
+    <!-- 2. Component Scanning for Web/Controller Layer -->
+    <!-- Scans the specified base package for Spring MVC components, primarily @Controller classes. -->
     <context:component-scan base-package="com.example.hrms.controller"/>
 
     <!-- 3. Configure ViewResolver for JSPs -->
+    <!-- Resolves logical view names returned by controllers to actual JSP files. -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/"/> <!-- We will place JSPs here -->
+        <!-- Prefix prepended to view names. JSPs are located in /WEB-INF/jsp/ -->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!-- Suffix appended to view names. Assumes .jsp extension. -->
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!-- 4. Static resource handling (e.g., CSS, JavaScript, images) -->
-    <!-- This allows serving static content from /css/**, /js/**, /images/** -->
-    <!-- The 'css' mapping is important for our existing style.css -->
+    <!-- 4. Static Resource Handling -->
+    <!-- Configures Spring MVC to serve static resources like CSS, JavaScript, and images directly. -->
+    <!-- 'mapping' attribute specifies the URL pattern. -->
+    <!-- 'location' attribute specifies the directory within the web application root where these resources are located. -->
+    <!-- Example: A request to /HRMS_SSM/css/style.css will be served from /webapp/css/style.css -->
     <mvc:resources mapping="/css/**" location="/css/"/>
-    <mvc:resources mapping="/js/**" location="/js/"/>
-    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>      <!-- If you add a js folder -->
+    <mvc:resources mapping="/images/**" location="/images/"/> <!-- If you add an images folder -->
 
     <!--
-        Additional configurations can be added here later, such as:
-        - Interceptors
-        - Message converters (for JSON/XML)
-        - Exception resolvers
+        Additional MVC configurations can be added here later, such as:
+        - Interceptors (for pre/post-processing requests)
+        - Message converters (for handling JSON/XML request/response bodies)
+        - Custom Exception resolvers (for global error handling)
+        - File upload configuration (MultipartResolver)
     -->
 
 </beans>

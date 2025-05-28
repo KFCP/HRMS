@@ -7,16 +7,21 @@
 
     <display-name>HRMS_SSM</display-name>
 
-    <!-- 1. Spring ContextLoaderListener: Loads the root application context -->
+    <!-- 1. Spring ContextLoaderListener: Loads the Root Application Context -->
+    <!-- This listener initializes the main Spring application context, which typically contains
+         beans for the service layer, data access layer (MyBatis), transaction management, etc. -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <!-- Specifies the location of the root application context configuration file. -->
+    <!-- All beans defined here are available to the entire application, including the DispatcherServlet's context. -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/applicationContext.xml</param-value> <!-- We will create this file later -->
+        <param-value>/WEB-INF/spring/applicationContext.xml</param-value>
     </context-param>
 
     <!-- 2. Character Encoding Filter -->
+    <!-- Ensures that request and response encoding is set to UTF-8, preventing character issues. -->
     <filter>
         <filter-name>characterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -26,33 +31,42 @@
         </init-param>
         <init-param>
             <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
+            <param-value>true</param-value> <!-- Forces encoding on both request and response. -->
         </init-param>
     </filter>
     <filter-mapping>
         <filter-name>characterEncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/*</url-pattern> <!-- Apply to all requests. -->
     </filter-mapping>
 
-    <!-- 3. Spring MVC DispatcherServlet: Handles web requests -->
+    <!-- 3. Spring MVC DispatcherServlet: Handles Web Requests -->
+    <!-- This is Spring MVC's front controller. It intercepts incoming HTTP requests and dispatches
+         them to the appropriate controllers based on request mappings. -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!-- Configure DispatcherServlet to load its own context, separate from the root context -->
+        <!-- Specifies the location of the DispatcherServlet's own application context configuration file. -->
+        <!-- This context typically contains beans specific to the web layer, such as controllers,
+             view resolvers, and handler mappings. It is a child context of the root application context. -->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring/spring-mvc-config.xml</param-value> <!-- We will create this file later -->
+            <param-value>/WEB-INF/spring/spring-mvc-config.xml</param-value>
         </init-param>
+        <!-- load-on-startup ensures the servlet is initialized when the application starts. -->
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <!-- Maps all requests prefixed with '/' to the DispatcherServlet. -->
+    <!-- This is a common pattern for applications using Spring MVC to handle all web requests. -->
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/</url-pattern> <!-- Map all requests to DispatcherServlet -->
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <!-- Optional: Welcome file list -->
+    <!-- Defines the default files to serve if a directory is requested.
+         The DispatcherServlet mapped to '/' will usually handle the root request anyway. -->
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file> <!-- Will be resolved by DispatcherServlet via HomeController -->
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
